@@ -18,7 +18,7 @@ public class DrawCards {
                 {0.25, 0.40, 0.30, 0.05, 0},
                 {0.19, 0.30, 0.35, 0.15, 0.01},
                 {0.16, 0.20, 0.35, 0.25, 0.04},
-                {0.9, 0.15, 0.30, 0.30, 0.16}};
+                {0.09, 0.15, 0.30, 0.30, 0.16}};
 
         //probabilities
         double tier1Prob = tierProbs[lvl - 1][0] / 13.0;
@@ -26,8 +26,15 @@ public class DrawCards {
         double tier3Prob = tierProbs[lvl - 1][2] / 13.0;
         double tier4Prob = tierProbs[lvl - 1][3] / 12.0;
         double tier5Prob = tierProbs[lvl - 1][4] / 8;
-        System.out.println(tier1Prob);
-        Tier[] tiers = {new Tier(tier1Prob, "Legendary"), new Tier(tier2Prob, "Rare"), new Tier(tier3Prob, "Common")};
+
+        //System.out.println(tier1Prob);
+
+        Tier[] tiers = {
+                new Tier(tier1Prob, "1"),
+                new Tier(tier2Prob, "2"),
+                new Tier(tier3Prob, "3"),
+                new Tier(tier4Prob, "4"),
+                new Tier(tier5Prob, "5")};
 
         // create an array of card objects
         Card[] cards = {
@@ -71,7 +78,29 @@ public class DrawCards {
                 new Card("Sona", tiers[2], 3),
                 new Card("Vayne", tiers[2], 3),
                 new Card("Vel'koz", tiers[2], 3),
-                new Card("Zoe", tiers[2], 3)
+                new Card("Zoe", tiers[2], 3),
+
+                new Card("Aurelion Sol", tiers[3], 4),
+                new Card("Bel'Veth", tiers[3], 4),
+                new Card("Ekko", tiers[3], 4),
+                new Card("Miss Fortune", tiers[3], 4),
+                new Card("Samira", tiers[3], 4),
+                new Card("Sejuani", tiers[3], 4),
+                new Card("Sett", tiers[3], 4),
+                new Card("Soraka", tiers[3], 4),
+                new Card("Taliyah", tiers[3], 4),
+                new Card("Viego", tiers[3], 4),
+                new Card("Zac", tiers[3], 4),
+                new Card("Zed", tiers[3], 4),
+
+                new Card("Aphelios", tiers[4], 5),
+                new Card("Fiddlesticks", tiers[4], 5),
+                new Card("Janna", tiers[4], 5),
+                new Card("Leona", tiers[4], 5),
+                new Card("Mordekaiser", tiers[4], 5),
+                new Card("Nunu", tiers[4], 5),
+                new Card("Syndra", tiers[4], 5),
+                new Card("Urgot", tiers[4], 5)
         };
 
         Random rng = new Random();
@@ -100,13 +129,13 @@ public class DrawCards {
         }
 
         //set total draws and cost per 5 draws
-        int totalDraws = 1000;
+        int totalDraws = 10000;
         int cost = 2;
         int goldSpent = 0;
         int actualDraws = 0;
 
         //simulation var
-        int simulations = 1;
+        int simulations = 100000;
         int currentSimulation = 1;
         int totalGoldSpent = 0;
 
@@ -124,7 +153,7 @@ public class DrawCards {
                 }
                 //System.out.println(actualDraws);
                 if (drawnCard.name.equals(targetCard.name)) {
-                    //System.out.println("Good Card");
+                    System.out.println("Good Card");
                     goldSpent += drawnCard.goldCost;
                     int count = counters.get(drawnCard);
                     count++;
