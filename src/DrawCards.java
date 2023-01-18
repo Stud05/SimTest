@@ -121,16 +121,33 @@ public class DrawCards {
         String targetCardName = sc2.nextLine();
         Card targetCard = null;
 
+        int poolTier1 = 0;
+        int poolTier2 = 0;
+        int poolTier3 = 0;
+        int poolTier4 = 0;
+        int poolTier5 = 0;
+
         for (Card card : cards) {
+            switch (card.goldCost) {
+                case 1 -> poolTier1 += card.pool;
+                case 2 -> poolTier2 += card.pool;
+                case 3 -> poolTier3 += card.pool;
+                case 4 -> poolTier4 += card.pool;
+                case 5 -> poolTier5 += card.pool;
+                default -> {
+                }
+            }
             if (card.name.equals(targetCardName)) {
                 targetCard = card;
-                break;
             }
         }
         if (targetCard == null) {
             System.out.println("Invalid card name, defaulting to Ashe");
             targetCard = cards[0];
         }
+
+        //Test pool size
+        System.out.println(poolTier1 +" "+poolTier2+" "+poolTier3+" "+poolTier4+" "+poolTier5);
 
         //set total draws and cost per 5 draws
         int totalDraws = 10000;
@@ -139,7 +156,7 @@ public class DrawCards {
         int actualDraws = 0;
 
         //simulation var
-        int simulations = 10;
+        int simulations = 100;
         int currentSimulation = 1;
         int totalGoldSpent = 0;
 
@@ -148,7 +165,6 @@ public class DrawCards {
             System.out.println("Simulation " + currentSimulation + ": ");
 
             // draw cards
-            outerloop:
             for (int i = 0; i < totalDraws; i++) {
                 Card drawnCard = drawCard(cards, rng);
                 //System.out.println("Drew the " + drawnCard.name + "!");
@@ -158,7 +174,7 @@ public class DrawCards {
                 }
                 //System.out.println(actualDraws);
                 if (drawnCard.name.equals(targetCard.name)) {
-                    System.out.println("Good Card");
+                    //System.out.println("Good Card");
                     goldSpent += drawnCard.goldCost;
                     int count = counters.get(drawnCard);
                     count++;
@@ -170,7 +186,7 @@ public class DrawCards {
                         //System.out.println("Gold Spent: " + goldSpent);
                         counters.put(drawnCard, 0);
                         actualDraws = 0;
-                        break outerloop;
+                        break;
                     }
                 } else {
                     // continue drawing until we get the target card
@@ -190,10 +206,10 @@ public class DrawCards {
     public static Card drawCard(Card[] cards, Random rng) {
         double rand = rng.nextDouble();
         double cumulativeProb = 0.0;
-        for (int j = 0; j < cards.length; j++) {
-            cumulativeProb += cards[j].probability;
+        for (Card card : cards) {
+            cumulativeProb += card.probability;
             if (rand <= cumulativeProb) {
-                return cards[j];
+                return card;
             }
         }
         return null;
